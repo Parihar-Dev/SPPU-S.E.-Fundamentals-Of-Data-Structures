@@ -1,0 +1,77 @@
+''' 
+Write a python code to compute following operation on string 
+a) To display word with the longest length
+b) To determine the frequency of occurence of particular character in the string
+c) To check whether string is palindrome or not
+d) To display index of first appearance of the substring
+e) To count the occurence of each word in a given string
+'''
+
+str1=input("Enter the string :")
+list=str1.split()
+
+def longest_length():
+    max=0
+    for i in list:
+        if(len(i)>max):
+            max=len(i)
+            temp=i
+    print(f"\n{temp} is the longest word with length {max}")
+
+def frequency_char():
+    n = input("\nEnter the character whose frequency is to be searched : ")
+    count = 0
+    for i in str1 :
+        if i == n :
+            count += 1
+    print(f"Character {n} has occured {count} times")
+
+def palindrome():
+    print(f"\nThe string is {str1.lower().strip()}")
+    print(f"The reversed string is {str1[::-1].lower().strip()}")
+    if str1.lower().strip() == str1[::-1].lower().strip() :
+        print("The string is a palindrome")
+    else :
+        print("The string is not a palindrome")
+
+def substring_search():
+    sub = input("\nEnter the substring : ")
+    if sub in str1:
+        print(f"The substring is present at {str1.find(sub)+1} position")
+    else :
+        print("The substring is not present in the string")
+
+def frequency_word() :
+    dict = {}
+    for i in list :
+        if i in dict :
+            dict[i] += 1
+        else :
+            dict[i] = 1
+    print(f"Frequency of each word : {dict}")
+
+b = True
+while(b) :
+    print("\n--------------------    MENU    --------------------")
+    print("1.To display word with the longest length")
+    print("2.To determine the frequency of occurence of particular character in the string")
+    print("3.To check whether string is palindrome or not")
+    print("4.To display index of first aperance of the substring")
+    print("5.To count the occurence of each word in a given string")
+    print("6. Exit")
+    choice = int(input("Enter any choice : "))
+    match choice :
+        case 1 :
+            longest_length()
+        case 2 :
+            frequency_char()
+        case 3 :
+            palindrome()
+        case 4 :
+            substring_search()
+        case 5 :
+            frequency_word()
+        case 6 :
+            b = False
+        case _ :
+            print("You entered an invalid choice")
