@@ -1,0 +1,309 @@
+/*
+Department of Computer Engineering have student's club named 'Pinnacle Club'.Students of second,third, and final
+year of department  can be granted membership on request. Similarly one may cancel the membership of club.
+First node is reserved for president of club and last node is reserved for secretary of club. Write C++ program
+to maintain club member's information using singly linked list. Store student PRN and Name. Write function to:
+a) Add and delete the members as well as president or even secretary
+b) Compute total number of members of club
+c) Display members
+d) Two linked lists exits for two divisions. Concatenate two lists
+*/
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+struct node{
+    string Name;
+    int PRN;
+    struct node *next;
+};
+
+class List{
+    struct node *head,*temp;
+    public :
+        List()
+        {
+            head = NULL;
+        }
+        struct node *Create(int val, string n);
+        void insertend();
+        void insertbeg();
+        int deletefirst();
+        int deletelast();
+        int insertAt(int i);
+        int deleteAt(int i);
+        int display();
+        int count();
+};
+
+node *List::Create(int val, string n)
+{
+    temp = new(struct node);
+    if ( temp == NULL )
+    {
+        cout<<"Memory Allocation Failed"<<endl;
+        return NULL;
+    }
+    else
+    {
+        temp->PRN = val;
+        temp->Name = n;
+        temp->next = NULL;
+        return temp;
+    }
+}
+
+void List::insertend()
+{
+    string n;
+    int val;
+    cout<<"Enter name of the secretary : ";
+    cin>>n;
+    cout<<"\nEnter PRN of the secretary : ";
+    cin>>val;
+    temp = Create(val,n);
+    node *t = head;
+
+    if (head == NULL)
+    {
+        head = temp;
+        head->next = NULL;
+    }
+    else
+    {
+        while(t->next != NULL)
+        {
+            t = t->next;
+        }
+        temp->next = NULL;
+        t->next = temp;
+        cout<<"Element inserted at end"<<endl;
+    }
+}
+
+void List::insertbeg()
+{
+    string n;
+    int val;
+    cout<<"Enter the name of the president : ";
+    cin >> n ;
+    cout<<"\nEnter the PRN of the president : ";
+    cin>> val;
+    temp = Create(val,n);
+    node *t = head;
+
+    if(head == NULL)
+    {
+        head = temp;
+        temp->next = NULL;
+    }
+    else
+    {
+        temp->next = head;
+        head = temp;
+        cout<<"We have a new President"<<endl;
+    }
+}
+
+int List::deletefirst()
+{
+    if (head == NULL)
+    {
+        cout<<"Nothing to delete"<<endl;
+        return -1;
+    }
+    else
+    {
+        struct node *t = head;
+        head = t->next;
+        delete t;
+        return 0;
+    }
+}
+
+int List::count()
+{
+    temp = head;
+    int ct = 0;
+    while(temp != NULL)
+    {
+        ct++;
+        temp = temp->next;
+    }
+    cout<<"Count : "<<ct<<endl;
+    return ct;
+}
+
+int List::deletelast()
+{
+    int ct = count();
+    if (head == NULL)
+    {
+        cout<<"Nothing to delete"<<endl;
+    }
+    else if (ct == 1)
+    {
+        delete head;
+        head = NULL;
+        return 0;
+    }
+    else
+    {
+        struct node *t = head;
+        while(t->next->next != NULL)
+        {
+            t = t->next;
+        }
+        delete t->next;
+        t->next = NULL;
+        return 0;
+    }
+}
+
+int List::insertAt(int i)
+{
+	int ct=count();
+	int val;
+	string n;
+	if(i<=0 || i>ct+2)
+	{
+		cout<<"You have enterd an Invalid Position!";
+		return -1;
+	}
+	else
+	{
+		if(i==1)
+			insertbeg();
+		else if(i==ct+1)
+			insertend();
+		else
+		{	
+			cout<<"Enter Name: ";
+			cin>>n;
+		    cout<<"Enter PRN: ";
+			cin>>val;	
+			temp=Create(val, n);
+			struct node *t=head;
+			while(i-2)
+			{
+				t=t->next;
+				i--;
+			}
+			temp->next=t->next;
+			t->next=temp;
+		}
+		return 0;
+	}
+}
+
+int List::deleteAt(int i)
+{
+    int ct = count();
+    if (i<=0 || i > ct+2)
+    {
+        cout<<"Enter a valid position";
+        return -1;
+    }
+    else if (head == NULL)
+    {
+        cout<<"Linked List is empty";
+        return -1;
+    }
+    else
+    {
+        if (i == 1)
+        {
+            deletefirst();
+        }
+        else if (i == ct)
+        {
+            deletelast();
+        }
+        else
+        {
+            struct node *t = head;
+
+            while(i-2)
+            {
+                t = t->next;
+                i--;
+            }
+            struct node *t2 = t->next;
+            t->next = t->next->next;
+            delete t2;
+        }
+        return 0;
+    }
+}
+
+int List::display()
+{
+    struct node *t = head;
+
+    if (head == NULL)
+    {
+        cout<<"No Pinnacle club found"<<endl;
+        return -1;
+    }
+    else
+    {
+        while(t->next != NULL)
+        {
+            cout<<"Name : "<<t->Name<<"\nPRN : "<<t->PRN<<endl;
+            t = t->next;
+        }
+        cout<<"Name : "<<t->Name<<"\nPRN : "<<t->PRN<<endl;
+        return 0;
+    }
+}
+
+int main()
+{
+	char ch;
+	List l;
+	int ct=l.count();
+	do
+	{
+		cout<<"1. Insert President\n2. Insert Secretary\n3.Insert A Member\n4.Display Data\n5.Delete President\n6.Delete Secretary\n7.Delete Member\n8.count data\n";	
+		int choice;
+		cout<<"Enter your choice: ";
+		cin>>choice;
+		switch(choice)
+		{
+			case 1: l.insertbeg();
+				break;
+			case 2: l.insertend();
+				break;
+			case 3:{
+				int i;
+				cout<<"Enter the position to add: ";
+				cin>>i;
+				l.insertAt(i);
+			       }
+			        break;
+			case 4: l.display();
+				break;
+			case 5: l.deletefirst();
+				break;
+			case 6: l.deletelast();
+				break;
+			case 7:{
+				int i;
+				cout<<"Enter the position to Delete Member: ";
+				cin>>i;
+				
+				l.deleteAt(i);
+			       }
+			       break;
+			case 8: l.count();
+				break;
+			default: cout<<"Invalid Input!";
+				break;
+		}
+	cout<<"Do you want to continue?\n";
+	cin>>ch;
+	}
+	while(ch=='Y'|| ch=='y');
+	return 0;
+}
