@@ -1,0 +1,95 @@
+'''
+Write python program to compute following computation on matrix
+a. Addition of two matrices
+b. Subtraction of two matrices
+c. Multiplication of two matrices
+d. Transpose of a matrix
+'''
+
+row = int(input("Enter the total number of rows : "))
+col = int(input("Enter the total number of columns : "))
+
+A_matrix = [[0 for j in range(col)] for i in range(row)]
+for i in range(row) :
+    for j in range(col) :
+        element = int(input(f"Enter the element{i+1}{j+1} : "))
+        A_matrix[i][j] = element
+print("\nTHE FIRST MATRIX IS : ")
+for n in A_matrix :
+    print(n)
+
+B_matrix = [[0 for j in range(col)] for i in range(row)]
+for i in range(row) :
+    for j in range(col) :
+        element = int(input(f"Enter the element{i+1}{j+1} : "))
+        B_matrix[i][j] = element
+print("\nTHE SECOND MATRIX IS : ")
+for n in B_matrix :
+    print(n)
+
+def Addition() :
+    C_matrix = [[0 for j in range(col)] for i in range(row)]
+    for i in range(row) :
+        for j in range(col) :
+            C_matrix[i][j] = A_matrix[i][j] + B_matrix[i][j]
+    print("\nTHE ADDITION MATRIX IS : ")
+    for n in C_matrix :
+        print(n)
+
+def Subtraction() :
+    C_matrix = [[0 for j in range(col)] for i in range(row)]
+    for i in range(row) :
+        for j in range(col) :
+            C_matrix[i][j] = A_matrix[i][j] - B_matrix[i][j]
+    print("\nTHE SUBTRACTION MATRIX IS : ")
+    for n in C_matrix :
+        print(n)
+
+def Multiplication() :
+    C_matrix = [[0 for j in range(col)] for i in range(row)]
+    for i in range(row) :
+        for j in range(col) :
+            for k in range(col) :
+                C_matrix[i][j] = C_matrix[i][j] + (A_matrix[i][k]*B_matrix[k][j])
+    print("\nTHE MULTIPLICATION MATRIX IS : ")
+    for n in C_matrix :
+        print(n)
+
+def Transpose() :
+    C_mat=[[0 for i in range(row)]for j in range(col)]
+    for i in range(0,row):
+        for j in range(0,col):
+            C_mat[j][i] = A_matrix[i][j]
+    print("Transpose of first matrix matrices : ")
+    for n in C_mat:
+        print(n)
+
+    for i in range(0,row):
+        for j in range(0,col):
+            C_mat[j][i] = B_matrix[i][j]
+    print("Transpose of Second matrix matrices : ")
+    for n in C_mat:
+        print(n)
+
+b = True
+while(b) :
+    print("\n--------------------    MENU    --------------------")
+    print("1. Addition of two matrices")
+    print("2. Subtraction of two matrices")
+    print("3. Multiplication of two matrices")
+    print("4. Transpose of a matrix")
+    print("5. Exit")
+    choice = int(input("Enter your choice : "))
+    match choice :
+        case 1 :
+            Addition()
+        case 2 :
+            Subtraction()
+        case 3 :
+            Multiplication()
+        case 4 :
+            Transpose()
+        case 5 :
+            b = False
+        case _ :
+            print("You entered an invalid input")
