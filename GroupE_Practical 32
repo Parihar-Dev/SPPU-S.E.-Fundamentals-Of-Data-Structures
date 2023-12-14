@@ -1,0 +1,108 @@
+/*
+Pizza Parlor accepting maximum M orders. Orders are served in first come first served basis. Order once
+placed cannot be cancelled. Write C++ program to simulate the system using circular queue using array.
+*/
+
+#include<iostream>
+#define MAX 15
+using namespace std;
+
+class Queue
+{
+    int Que[MAX];
+    int front,rear;
+    public:
+        Queue()
+        {
+            front = - 1;
+            rear = 0;
+        }
+        void init();
+        void insert(int x);
+        int delet();
+        void display();
+};
+
+void Queue::init()
+{
+    int i;
+    for (i=0;i<MAX;i++)
+        Que[i] = 0;
+}
+
+void Queue::insert(int x)
+{
+    if(front == (rear+1)%MAX)
+    {
+        cout<<"The queue is full"<<endl;
+    }
+    else
+    {
+        if ( front == -1)
+            front = rear = 0;
+        else
+            rear = (rear + 1)%MAX;
+        Que[rear] = x;
+    }   
+}
+
+int Queue::delet()
+{
+    int val;
+    if(front == -1)
+    {
+        cout<<"The Queue is empty"<<endl;
+        return 0;
+    }
+    val = Que[front];
+    if(front==rear)
+        front = rear = -1;
+    else
+        front = (front+1%MAX);
+    return val;
+}
+
+void Queue::display()
+{
+    for(int i = front;i<=rear;i++)
+    {
+        cout<<Que[i]<<endl;
+    }
+}
+
+int main()
+{
+    int choice,item;
+    Queue obj;
+    obj.init();
+    do
+    {
+        cout<<"\n1.Insert Order\n2.Delete Order\n3.Display Order\n4.Exit"<<endl;
+        cout<<"Enter your choice : ";
+        cin>>choice;
+        switch(choice)
+        {
+            case 1 :
+                cout<<"Enter the item number to insert : ";
+                cin>>item;
+                obj.insert(item);
+            break;
+
+            case 2 :
+                obj.delet();
+            break;
+
+            case 3 :
+                obj.display();
+            break;
+
+            case 4 :
+                cout<<"Exiting Program";
+            break;
+
+            default :
+                cout<<"Invalid input";
+            break;
+        }
+    }while(choice!=4);
+}
