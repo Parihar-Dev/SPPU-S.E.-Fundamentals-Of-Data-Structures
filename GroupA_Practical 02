@@ -1,0 +1,70 @@
+'''
+Write a Python program to store marks scored in subject “Fundamental of Data Structure” by N
+students in the class. Write functions to compute following: 
+a) The average score of class 
+b) Highest score and lowest score of class 
+c) Count of students who were absent for the test 
+d) Display mark with highest frequency
+'''
+
+a = []
+n = int(input("Enter the total number of students : "))
+for i in range(n):
+    marks = int(input(f"Enter the marks stored by student {i+1} in FDS (-1 if student absent): "))
+    a.append(marks)
+print(f"Marks scored by students : {a}")
+
+def average_score():
+    sum = 0
+    global absent 
+    absent = 0
+    for i in range(n):
+        if i != -1:
+            sum += a[i]
+        else :
+            absent += 1
+    average = sum / (n - absent)
+    print(f"The Average score of the class is : {average}")
+
+def extreme_values():
+    low = []
+    print(f"The Highest score of the class is : {max(a)}")
+    for i in range(len(a)):
+        if i != -1 :
+          low.append(a[i])
+    print(f"The Lowest score of the class is : {min(low)}")
+
+def absent_count():
+    print(f"Total number of absent students : {absent}")
+
+def marks_frequency():
+    frequency = {}
+    for mark in a :
+        if mark in frequency :
+            frequency[mark] += 1
+        else :
+            frequency[mark] = 1
+    print(f"Frequency of element is : ",frequency)
+    max_value = max(frequency, key = frequency.get)
+    print(f"Marks with highest frequency is {max_value}")
+
+b = True
+while(b):
+    print("\n---------------    MENU    ---------------")
+    print("1.The average score of class ")
+    print("2. Highest score and lowest score of class ")
+    print("3.Count of students who were absent for the test ")
+    print("4.Display mark with highest frequency")
+    print("5.Exit")
+    choice = int(input("Enter any choice : "))
+    match choice:
+        case 1 :
+            average_score()
+        case 2 :
+            extreme_values()
+        case 3 :
+            absent_count()
+        case 4 :
+            marks_frequency()
+        case 5 :
+            b = False
