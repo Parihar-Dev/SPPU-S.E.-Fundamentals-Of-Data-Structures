@@ -1,0 +1,169 @@
+/*
+A double-ended queue(dequeue) is a linear list in which additions and deletions may be made at either
+end.Obtain a data representation mapping a dequeue into a one-dimensional array. Write C++ program to
+simulate deque with functions to add and delete elements from either end of the deque.
+*/
+
+#include<iostream>
+#define MAX 5
+using namespace std;
+
+class dequeue
+{
+    int a[MAX],f,r;
+    public:
+        dequeue();
+        void insert_at_beg(int);
+        void insert_at_end(int);
+        void delete_at_beg();
+        void delete_at_end();
+        void show();
+};
+dequeue::dequeue()
+{
+    f = -1;
+    r = -1;
+}
+
+void dequeue::insert_at_end(int x)
+{
+    if (r >= MAX-1)
+        cout<<"Queue is overflow, insertion not possible"<<endl;
+    else
+    {
+        if (f == -1)
+        {
+            f++;
+            r++;
+        }
+        else
+        {
+            r++;
+        }
+        a[r] = x;
+        cout<<"Inserted element is : "<<a[r];
+    }
+    cout<<"Front : "<<f<<"Rear : "<<r<<endl;
+}
+
+void dequeue::insert_at_beg(int i) {
+   int k,j;
+   if(f==-1)
+   	f++;
+   k=f-1;
+   while(k>=0)
+   {
+   	a[k+1]=a[k];
+   	k--;
+   }
+   j=r;
+   while(j>=f)
+   {
+   	a[j+1]=a[j];
+   	j--;
+   }
+   r++;
+   a[f]=i;
+   cout<<"\nFront"<<f<<"  Rear"<<r<<endl;
+}
+
+void dequeue::delete_at_beg()
+{
+    if (f == -1)
+    {
+        cout<<"Deletion not possible, queue is empty"<<endl;
+        return;
+    }
+    else
+    {
+        if(f==r)
+        {
+            f==r==-1;
+            return;
+        }
+        else
+        {
+            f = f+1;
+        }
+    }
+    cout<<"Front : "<<f<<"Rear : "<<r<<endl;
+}
+
+void dequeue::delete_at_end()
+{
+    if (f==-1)
+    {
+        cout<<"Deletion is not possible , dequeue is empty"<<endl;
+        return;
+    }
+    else
+    {
+        if(f==r)
+        {
+            f==r==-1;
+            return;
+        }
+        else
+            r = r-1;
+    }
+    cout<<"Front : "<<f<<"Rear : "<<r<<endl;
+}
+
+void dequeue::show()
+{
+    if (f==-1)
+        cout<<"Dequeue is empty"<<endl;
+    else
+    {
+        int i;
+        for(i=f;i<=r;i++)
+            cout<<a[i]<<" ";
+    }
+}
+
+int main()
+{
+    int c,x;
+    dequeue d;
+    do
+    {
+        cout<<"\n1.Insert element at beginning";
+        cout<<"\n2.Insert element at end";
+        cout<<"\n3.Display all elements";
+        cout<<"\n4.Delete element at beginning";
+        cout<<"\n5.Delete element at end";
+        cout<<"\n6.Exit";
+        cout<<"Enter your choice : ";
+        cin>>c;
+        switch(c)
+        {
+            case 1 :
+                    cout<<"Enter the element to insert : ";
+                    cin>>x;
+                    d.insert_at_beg(x);
+                break;
+            
+            case 2 :
+                    cout<<"Enter the element to insert : ";
+                    cin>>x;
+                    d.insert_at_end(x);
+                break;
+
+            case 3 :
+                d.show();
+                break;
+            case 4 :
+                d.delete_at_beg();
+                break;
+            case 5 :
+                d.delete_at_end();
+                break;
+            case 6 :
+                cout<<"Exiting Program";
+                break;
+            default :
+                cout<<"Invalid choice!!!";
+                break;
+        }
+    }while(c!=6);
+}
