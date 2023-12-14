@@ -1,0 +1,62 @@
+'''
+Write a python program to store first year percentage of students in array. Write function for sorting
+array of floating point numbers in ascending order using
+1. Selection Sort
+2. Bubble Sort and display top 5 scores
+'''
+
+fe_result = []
+
+def get_data() :
+    n = int(input("Enter the total no. of students in first year : "))
+    for i in range(n):
+        percentage = float(input(f"Enter the percentage of student{i+1} : "))
+        fe_result.append(percentage)
+    
+def display_data() :
+    print(fe_result)
+
+def Selection_Sort(arr):
+    n = len(arr)
+    for i in range(n-1) :
+        min = i
+        for j in range(i+1,n) :
+            if arr[j] < arr[min] :
+                min = j
+        temp = arr[i]
+        arr[i] = arr[min]
+        arr[min] = temp
+    print(f"Sorted list is : {arr}")
+
+def Bubble_Sort(arr):
+    n = len(arr)
+    for i in range(n-1) :
+        for j in range(n-1) :
+            if arr[j] > arr[j+1] :
+                arr[j],arr[j+1] = arr[j+1],arr[j]
+    
+    for i in range(n-1,n-6,-1):
+        print(arr[i])
+
+b = True
+while(b) :
+    print("\n--------------------    MENU    --------------------")
+    print("1. Enter Data of F.E. Students")
+    print("2. Display data")
+    print("3. Perform Selection Sort")
+    print("4. Display top 5 scores")
+    print("5. Exit")
+    choice = int(input("Enter your choice : "))
+    match choice :
+        case 1 :
+            get_data()
+        case 2 :
+            display_data()
+        case 3 :
+            Selection_Sort(fe_result)
+        case 4 :
+            Bubble_Sort(fe_result)
+        case 5 :
+            b = False
+        case _ :
+            print("Invalid Input")
