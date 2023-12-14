@@ -1,0 +1,148 @@
+/*
+A palindrome is a string of character that's the same forward and backward. Typically, punctuation,
+capitalization, and spaces are ignored. For example, "Poor Dan is in a droop" is a palindrome,
+as can be seen by examining the characters "poor danisina droop" and observing that they are same
+forward and backward. One way to check for a palindrome is to reverse the characters in the string and
+then compare with them the original-in a palindrome, the sequence will be identical. write c++ program
+with functions-
+a) To print original string followed by reversed string using stack
+b) To check whether given string is palindrome or not
+*/
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class stack
+{
+    public :
+        int max;
+        char st[25];
+        int top;
+
+        stack()
+        {
+            top = -1;
+        }
+
+        void push(char);
+        char pop();
+        int isempty();
+        int isfull();
+};
+
+class str
+{
+    stack stobj;
+    char inputstr[25],rev[25];
+
+    public:
+        void readstr();
+        void convertstr();
+        void revstr();
+        void check_pal();
+};
+
+int stack::isempty()
+{
+    if (top == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int stack::isfull()
+{
+    if (top == max-1)
+        return 1;
+    else
+        return 0;
+}
+
+void stack::push(char val)
+{
+    if (!isfull())
+    {
+        top++;
+        st[top] = val;
+    }
+    else
+        cout<<"Stack is full !!!"<<endl;
+}
+
+char stack::pop()
+{
+    char ch;
+    if (!isempty())
+    {
+        ch = st[top];
+        top--;
+    }
+    else
+        cout<<"Stack is empty !!!"<<endl;
+    return ch;
+}
+
+void str::readstr()
+{
+    int count = 0;
+    cout<<"Enter your string : ";
+    cin.get(inputstr,25);
+}
+
+void str::convertstr()
+{
+    char tempstr[25];
+    int j = 0;
+
+    for (int i=0;inputstr[i] != '\0';i++)
+    {
+        if (inputstr[i] >= 65 && inputstr[i] <= 90)
+        {
+            tempstr[j] = inputstr[i] + 32;
+            j++;
+        }
+        else if (inputstr[i] >= 97 && inputstr[i] <= 122)
+        {
+            tempstr[j] = inputstr[i];
+            j++; 
+        }
+    }
+    tempstr[j] = '\0';
+    strcpy(inputstr,tempstr);
+    cout<<"Converted string is : "<<inputstr<<endl;
+}
+
+void str::revstr()
+{
+    for (int i = 0;inputstr[i] != '\0';i++)
+    {
+        stobj.push(inputstr[i]);
+    }
+    int i = 0;
+    while(!stobj.isempty())
+    {
+        rev[i] = stobj.pop();
+        i++;
+    }
+    rev[i] = '\0';
+    cout<<"Reversed String is : "<<rev<<endl;   
+}
+
+void str::check_pal()
+{
+    if (strcmp(inputstr,rev) == 0)
+        cout<<"Given String is a Palindrome"<<endl;
+    else
+        cout<<"Given string is not a palindrome";
+}
+
+int main()
+{
+    str obj;
+    obj.readstr();cout<<endl;
+    obj.convertstr();cout<<endl;
+    obj.revstr();
+    obj.check_pal();
+    return 0;
+}
