@@ -1,0 +1,72 @@
+'''
+Write a python program to maintain club members, sort on roll number in ascending order. Write
+function "Ternary Search" to check whether a particular student is member or not. Ternary search
+is a binary search that divides a array into 3 instead of two.
+'''
+
+club_mem = []
+
+def get_data() :
+    n = int(input("\nEnter the total number of students : "))
+    for i in range(n) :
+        roll_no = int(input(f"Enter the roll number of student {i+1} : "))
+        club_mem.append(roll_no)
+
+def display_data() :
+    print("\nClub Members : ",club_mem)
+
+def Selection_Sort(arr) :
+    n = len(arr)
+    for i in range(n-1) :
+        min = i
+        for j in range(i+1,n) :
+            if arr[j] < arr[min] :
+                min = j
+        arr[i],arr[min] = arr[min],arr[i]
+    print(f"\nSorted list of roll no. : {arr}")
+
+def Ternary_Search(arr,left,right,key_element) :
+    if (right >= left) :
+        mid1 = left + ( right - left ) // 3
+        mid2 = right - ( right - left ) // 3
+        if arr[mid1] == key_element :
+            return mid1
+        elif arr[mid2] == key_element :
+            return mid2
+        elif key_element < arr[mid1] :
+            return Ternary_Search(arr,left,mid1-1,key_element)
+        elif key_element > arr[mid2] :
+            return Ternary_Search(arr,mid2+1,right,key_element)
+        else :
+            return Ternary_Search(arr,mid1+1,mid2-1,key_element)
+    return -1
+
+b = True
+while(b) :
+    print("\n--------------------    MENU    --------------------")
+    print("1. Accept Data")
+    print("2. Display Data")
+    print("3. Perform sorting on the array")
+    print("4. Search any element")
+    print("5. Exit")
+    choice = int(input("Enter any choice : "))
+    match choice :
+        case 1 :
+            get_data()
+        case 2 :
+            display_data()
+        case 3 :
+            Selection_Sort(club_mem)
+        case 4 :
+            key_element = int(input("Enter the element to search : "))
+            left = 0
+            right = len(club_mem) - 1
+            index = Ternary_Search(club_mem,left,right,key_element)
+            if index != -1 :
+                print(f"The element {key_element} is found at {index+1} position")
+            else :
+                print("The element is not found in the array")
+        case 5 :
+            b = False
+        case _ :
+            print("Invalid input")
