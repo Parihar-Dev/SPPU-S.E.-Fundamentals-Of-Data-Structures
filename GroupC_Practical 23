@@ -1,0 +1,224 @@
+/*
+Write a c++ program for storing binary number using doubly linked lists. Write functions
+1. To Compute 1's and 2's complement
+2. Add two binary numbers
+*/
+
+#include<iostream>
+using namespace std;
+class node
+{
+    node *next;
+    bool n;
+    node *prev;
+    public:
+        node()
+        {
+            prev = next = NULL;
+        }
+        node(bool b)
+        {
+            n = b;
+            prev = next = NULL;
+        }
+        friend class binary;
+};
+
+class binary
+{
+    node *start;
+    public :
+        binary()
+        {
+            start = NULL;
+        }
+        void generate_binary(int no);
+        void display_binary();
+        void ones_complement();
+        void twos_complement();
+        binary operator +(binary n1);
+        bool addBitatBegin(bool value)
+        {
+            node *nodee = new node(value);
+            if (start == NULL)
+            {
+                start = nodee;
+            }
+            else
+            {
+                nodee->next = start;
+                start->prev = nodee;
+                start = nodee;
+            }
+            return true;
+        }
+};
+
+void binary::generate_binary(int no)
+{
+    bool rem;
+    node *p;
+
+    rem = no % 2;
+    start = new node(rem);
+    no = no / 2;
+
+    while(no!=0)
+    {
+        rem = no % 2;
+        no = no / 2;
+        p = new node(rem);
+        p->next = start;
+        start->prev = p;
+        start = p;
+    }
+}
+
+void binary::display_binary()
+{
+    node *t;
+    t = start;
+    while(t!=NULL)
+    {
+        cout<<t->n;
+        t = t->next;
+    }
+}
+
+void binary::ones_complement()
+{
+    node *t;
+    t = start;
+    while(t != NULL)
+    {
+        if (t->n == 0)
+        {
+            t->n = 1;
+        }
+        else
+        {
+            t->n = 0;
+        }
+        t = t->next;
+    }
+}
+
+binary binary::operator +(binary n1)
+{
+    binary sum;
+    node *a = start;
+    node *b = n1.start;
+    bool carry = false;
+
+    while(a->next != NULL)
+    {
+        a = a->next ;
+    }
+    while(b->next != NULL)
+    {
+        b = b->next;
+    }
+
+    while(a != NULL && b != NULL)
+    {
+        sum.addBitatBegin((a->n)^(b->n)^carry);
+        carry = ((a->n && b->n) || (a->n && carry) || (b->n && carry));
+        a = a -> prev;
+        b = b -> prev;
+    }
+    while(a != NULL)
+    {
+        sum.addBitatBegin(a->n ^ carry);
+        a = a->prev;
+    }
+    while(b != NULL)
+    {
+        sum.addBitatBegin(b->n ^ carry);
+        b = b->prev;
+    }
+    sum.addBitatBegin(carry);
+    return sum;
+}
+
+void binary::twos_complement()
+{
+    ones_complement();
+    bool carry = 1;
+    node *t;
+    t = start;
+
+    while(t->next != NULL)
+    {
+        t = t->next;
+    }
+    while(t != NULL)
+    {
+        if (t->n == 1 && carry == 1)
+        {
+            t->n = 0;
+            carry = 1;
+        }
+        else if (t->n == 0 && carry == 1)
+        {
+            t->n = 1;
+            carry = 0;
+        }
+        else if (carry == 0)
+        {
+            break;
+        }
+        t = t->prev;
+    }
+    display_binary();
+}
+
+int main()
+{
+    int num1,num2;
+    binary n1,n2,n3;
+    int choice = 1;
+    do
+    {
+        cout<<"\n--------------------    MENU    --------------------";
+        cout<<"\n1.Generate Binary\n2.One's Complement\n3.Two's Complement\n4.Addition\n5.Exit\n";
+        cout<<"Enter your choice : ";
+        cin>>choice;
+        switch (choice)
+        {
+        case 1 : cout<<"Enter number in decimal form : ";
+                 cin>>num1;
+                 n1.generate_binary(num1);
+                 cout<<"\nBinary Representation : ";
+                 n1.display_binary();
+                 break;
+        case 2 : cout<<"Enter number in decimal form : ";
+                 cin>>num1;
+                 n1.generate_binary(num1);
+                 cout<<"\nOne's Complement : ";
+                 n1.ones_complement();
+                 n1.display_binary();
+                 break;
+        case 3 : cout<<"Enter number in decimal form : ";
+                 cin>>num1;
+                 n1.generate_binary(num1);
+                 cout<<"\nTwo's Complement : ";
+                 n1.twos_complement();
+                 n1.display_binary();
+                 break;
+        case 4 : cout<<"Enter two numbers in decimal form : "<<endl;
+                 cin>>num1>>num2;
+                 n1.generate_binary(num1);
+                 n2.generate_binary(num2);
+                 n1.display_binary();
+                 cout<<"+";
+                 n2.display_binary();
+                 cout<<"=";
+                 n3 = n1 + n2 ;
+                 n3.display_binary();
+                 break;
+        default: cout<<"You have entered an incorrect choice";
+            break;
+        }
+    }while(choice != 5);
+    return 0;
+}
